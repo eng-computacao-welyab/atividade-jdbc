@@ -31,6 +31,11 @@ public class Application implements Closeable {
 
     public Application() {
         database = new Database();
+        registerComponents();
+
+    }
+
+    private void registerComponents() {
         registerSingleInstance(
                 CONNECTION_FACTORY,
                 () -> database
