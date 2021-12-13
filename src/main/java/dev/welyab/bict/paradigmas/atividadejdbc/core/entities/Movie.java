@@ -1,9 +1,7 @@
 package dev.welyab.bict.paradigmas.atividadejdbc.core.entities;
 
 import java.math.BigDecimal;
-import java.time.YearMonth;
 import java.util.Objects;
-import java.util.Optional;
 
 public class Movie {
 
@@ -69,6 +67,7 @@ public class Movie {
     }
 
     @Override
+    @SuppressWarnings("all")
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

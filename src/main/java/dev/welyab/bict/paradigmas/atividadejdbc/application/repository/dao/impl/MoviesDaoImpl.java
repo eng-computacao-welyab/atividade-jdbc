@@ -78,7 +78,7 @@ public class MoviesDaoImpl implements MoviesDao {
         );
         try (var conn = connectionFactory.createConnection()) {
             try (var stm = conn.prepareStatement(sql)) {
-                for (int i = 0; i < ids.size(); i++) {
+                for (var i = 0; i < ids.size(); i++) {
                     stm.setString(i + 1, ids.get(i));
                 }
                 var rs = stm.executeQuery();

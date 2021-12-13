@@ -3,5 +3,6 @@ package dev.welyab.bict.paradigmas.atividadejdbc.application.config.ioc;
 @FunctionalInterface
 public interface IocSupplier {
 
-    public Object get() throws Exception;
+    @SuppressWarnings("java:S112")
+    Object get() throws Exception;
 }

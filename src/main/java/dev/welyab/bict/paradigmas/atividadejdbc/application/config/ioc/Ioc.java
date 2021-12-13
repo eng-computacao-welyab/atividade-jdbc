@@ -66,10 +66,12 @@ public class Ioc {
         components.put(name, componentSupplier);
     }
 
-    private static void clear() {
+    public static void clear() {
         components.clear();
     }
 
+    @FunctionalInterface
+    @SuppressWarnings("java:S112")
     private interface ComponentSupplier {
         Object getComponent() throws Exception;
     }

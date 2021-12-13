@@ -15,6 +15,8 @@ public class Database implements ConnectionFactory, Closeable {
     public static final String DATABASE_USER = "Database.USER";
     public static final String DATABASE_PASSWORD = "Database.PASSWORD";
 
+    private static final String INVALID_PARAMETER_TEMPLATE = "Parameter not found: %s";
+
     private final HikariPool pool;
 
     public Database() {
@@ -43,13 +45,13 @@ public class Database implements ConnectionFactory, Closeable {
 
     private static void validateEnvironmentParameters() {
         if (Strings.isNullOrEmpty(System.getProperty(DATABASE_URL))) {
-            throw new DatabaseException(String.format("Parameter not found: %s", DATABASE_URL));
+            throw new DatabaseException(String.format(INVALID_PARAMETER_TEMPLATE, DATABASE_URL));
         }
         if (Strings.isNullOrEmpty(System.getProperty(DATABASE_USER))) {
-            throw new DatabaseException(String.format("Parameter not found: %s", DATABASE_USER));
+            throw new DatabaseException(String.format(INVALID_PARAMETER_TEMPLATE, DATABASE_USER));
         }
         if (Strings.isNullOrEmpty(System.getProperty(DATABASE_PASSWORD))) {
-            throw new DatabaseException(String.format("Parameter not found: %s", DATABASE_PASSWORD));
+            throw new DatabaseException(String.format(INVALID_PARAMETER_TEMPLATE, DATABASE_PASSWORD));
         }
     }
 }

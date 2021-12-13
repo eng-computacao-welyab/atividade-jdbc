@@ -60,9 +60,14 @@ public class Application implements Closeable {
         } catch (Exception e) {
             closeErrorList.add(e);
         }
+        try {
+            Ioc.clear();
+        } catch (Exception e) {
+            closeErrorList.add(e);
+        }
         if (!closeErrorList.isEmpty()) {
-            ApplicationException exception = new ApplicationException("Fail to  properly close application");
-            closeErrorList.forEach(e -> exception.addSuppressed(e));
+            var exception = new ApplicationException("Fail to  properly close application");
+            closeErrorList.forEach(exception::addSuppressed);
             throw exception;
         }
     }

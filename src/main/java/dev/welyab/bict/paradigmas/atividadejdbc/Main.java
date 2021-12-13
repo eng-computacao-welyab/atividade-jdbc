@@ -17,6 +17,7 @@ import java.util.UUID;
 
 import static dev.welyab.bict.paradigmas.atividadejdbc.application.config.ioc.Ioc.instance;
 
+@SuppressWarnings("java:S106")
 public class Main {
 
     public static void main(String[] args) throws Exception {
@@ -42,9 +43,7 @@ public class Main {
                             "https://www.imdb.com/title/tt4154796/"
                     )
             );
-            movieService.findAll().forEach(movie -> {
-                System.out.println(movie);
-            });
+            movieService.findAll().forEach(System.out::println);
         }
     }
 
@@ -64,11 +63,7 @@ public class Main {
                 for (var sqlPart : sql.split(";")) {
                     if (sqlPart.trim().isBlank()) continue;
                     try (var stm = conn.createStatement()) {
-                        try {
-                            stm.execute(sqlPart);
-                        } catch (SQLException e) {
-                            throw new DatabaseException(String.format("Fail to execute script: %s", sqlPart), e);
-                        }
+                        stm.execute(sqlPart);
                     }
                 }
                 conn.commit();
