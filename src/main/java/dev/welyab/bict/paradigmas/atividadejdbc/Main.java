@@ -10,6 +10,7 @@ import dev.welyab.bict.paradigmas.atividadejdbc.core.services.MovieService;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.UUID;
@@ -31,6 +32,16 @@ public class Main {
             loadSampleData();
 
             var movieService = instance(MovieService.class, Application.Components.MOVIES_SERVICE);
+
+            movieService.save(
+                    new Movie(
+                            null,
+                            "Vingadores: Ultimato",
+                            3019,
+                            new BigDecimal("8.4"),
+                            "https://www.imdb.com/title/tt4154796/"
+                    )
+            );
             movieService.findAll().forEach(movie -> {
                 System.out.println(movie);
             });
