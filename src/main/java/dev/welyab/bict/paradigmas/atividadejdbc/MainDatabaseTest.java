@@ -18,11 +18,9 @@ import java.util.UUID;
 import static dev.welyab.bict.paradigmas.atividadejdbc.application.config.ioc.Ioc.instance;
 
 @SuppressWarnings("java:S106")
-public class Main {
+public class MainDatabaseTest {
 
     public static void main(String[] args) throws Exception {
-        System.out.println(UUID.randomUUID().toString());
-
         // database parameters
         System.setProperty(Database.DATABASE_URL, "jdbc:hsqldb:mem:movies");
         System.setProperty(Database.DATABASE_USER, "sa");
@@ -75,7 +73,7 @@ public class Main {
     }
 
     private static String loadSqlScript(String fileName) throws IOException {
-        try (var script = Main.class.getClassLoader().getResourceAsStream(String.format("database/%s", fileName))) {
+        try (var script = MainDatabaseTest.class.getClassLoader().getResourceAsStream(String.format("database/%s", fileName))) {
             return IOUtils.toString(script, StandardCharsets.UTF_8);
         }
     }

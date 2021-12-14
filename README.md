@@ -49,7 +49,7 @@ Em todo caso, é possível executar em linha de comando a classe `Main`. Este cl
 funcionalidades. O comando em mavem para linha de comand é algo parecido com o que segue:
 
 ```
-$ mvn compile exec:java -Dexec.mainClass="dev.welyab.bict.paradigmas.atividadejdbc.Main"
+$ mvn compile exec:java -Dexec.mainClass="dev.welyab.bict.paradigmas.atividadejdbc.MainDatabaseTest"
 ```
 
 O resultado é algo parecido com o seguinte:
