@@ -9,8 +9,10 @@ Professor: Sérgio Souza Costa
 
 ## O que este projeto faz
 
-* Criar um DAO para uma POJO de "Filme" com alguns métodos para interação com o banco de dados
+* Cria um DAO para uma POJO de "Filme" com alguns métodos para interação com o banco de dados
+  * Também define um DAO genérico para definição de métodos comuns de um CRUD
 * Implementa uma estrutura de banco de dados
+* Cria um formulário em Java Swing para cadastro de filmes na base de dados utilizando `GridBagLayout`
 
 ## Decisões de implementação
 
@@ -20,6 +22,7 @@ Professor: Sérgio Souza Costa
 
 * Apache Maven como ferramenta de build
 * Java 17
+* Java Swing para interface gráfica
 * HSQL para banco de dados relacional embutido
 * HikariCP para pool de conexões
 * Google Guava para rotinas auxiliares
