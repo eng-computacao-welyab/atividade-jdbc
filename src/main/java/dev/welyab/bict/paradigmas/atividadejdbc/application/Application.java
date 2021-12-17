@@ -4,7 +4,7 @@ import dev.welyab.bict.paradigmas.atividadejdbc.application.config.database.Data
 import dev.welyab.bict.paradigmas.atividadejdbc.application.config.ioc.Ioc;
 import dev.welyab.bict.paradigmas.atividadejdbc.application.exception.ApplicationException;
 import dev.welyab.bict.paradigmas.atividadejdbc.application.gui.MainFrame;
-import dev.welyab.bict.paradigmas.atividadejdbc.application.gui.MoviesFrame;
+import dev.welyab.bict.paradigmas.atividadejdbc.application.gui.MoviesRegistrationPanel;
 import dev.welyab.bict.paradigmas.atividadejdbc.application.repository.dao.impl.MoviesDaoImpl;
 import dev.welyab.bict.paradigmas.atividadejdbc.application.services.MovieServiceImpl;
 import org.apache.logging.log4j.LogManager;
@@ -75,7 +75,7 @@ public class Application implements Closeable {
         );
         registerFactoryInstance(
                 MOVIE_FRAME,
-                () -> new MoviesFrame(
+                () -> new MoviesRegistrationPanel(
                         instance(MOVIES_SERVICE)
                 )
         );

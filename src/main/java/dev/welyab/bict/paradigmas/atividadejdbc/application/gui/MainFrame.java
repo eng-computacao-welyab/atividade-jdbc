@@ -1,9 +1,14 @@
 package dev.welyab.bict.paradigmas.atividadejdbc.application.gui;
 
+import dev.welyab.bict.paradigmas.atividadejdbc.application.Application;
+import dev.welyab.bict.paradigmas.atividadejdbc.application.config.ioc.Ioc;
+
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import java.awt.BorderLayout;
 import java.awt.event.WindowEvent;
 
 public class MainFrame extends JFrame {
@@ -14,6 +19,9 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
 
         mountMenu();
+
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(Ioc.<JComponent>instance(Application.Components.MOVIE_FRAME));
     }
 
     private void mountMenu() {

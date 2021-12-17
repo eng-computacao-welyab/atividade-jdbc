@@ -5,6 +5,8 @@ import com.google.common.base.Preconditions;
 import dev.welyab.bict.paradigmas.atividadejdbc.application.config.database.ConnectionFactory;
 import dev.welyab.bict.paradigmas.atividadejdbc.application.repository.dao.DaoException;
 import dev.welyab.bict.paradigmas.atividadejdbc.application.repository.dao.MoviesDao;
+import dev.welyab.bict.paradigmas.atividadejdbc.util.pagination.Page;
+import dev.welyab.bict.paradigmas.atividadejdbc.util.pagination.PagedResult;
 import dev.welyab.bict.paradigmas.atividadejdbc.core.entities.Movie;
 
 import java.sql.SQLException;
@@ -19,8 +21,9 @@ public class MoviesDaoImpl implements MoviesDao {
         this.connectionFactory = connectionFactory;
     }
 
-    public Movie findById(String id) {
-        var list = findByIds(List.of(id));
+    @Override
+    public Movie find(String id) {
+        var list = find(List.of(id));
         if (list.isEmpty()) {
             return null;
         }
@@ -28,7 +31,7 @@ public class MoviesDaoImpl implements MoviesDao {
     }
 
     @Override
-    public List<Movie> findAll() {
+    public PagedResult<Movie> findAll(Page page) {
         var sql = """
                 select
                     m.id,
@@ -37,9 +40,13 @@ public class MoviesDaoImpl implements MoviesDao {
                     m.imdb_score,
                     m.imdb_url
                 from movies m
+                offset ?
+                limit ?
                 """;
         try (var conn = connectionFactory.createConnection()) {
             try (var stm = conn.prepareStatement(sql)) {
+                stm.setInt(1, page.getPageNumber() * page.getPageSize());
+                stm.setInt(2, page.getPageSize());
                 var rs = stm.executeQuery();
                 List<Movie> movies = new ArrayList<>(100);
                 while (rs.next()) {
@@ -51,16 +58,15 @@ public class MoviesDaoImpl implements MoviesDao {
                     movie.setImdbUrl(rs.getString("imdb_url"));
                     movies.add(movie);
                 }
-                return movies;
+                return new PagedResult<>(movies, page);
             }
         } catch (SQLException e) {
             throw new DaoException("Fail to insert movie into database", e);
         }
     }
 
-
     @Override
-    public List<Movie> findByIds(List<String> ids) {
+    public List<Movie> find(List<String> ids) {
         Preconditions.checkNotNull(ids, "ids");
         var sqlTemplate = """
                 select
@@ -95,7 +101,13 @@ public class MoviesDaoImpl implements MoviesDao {
                 return movies;
             }
         } catch (SQLException e) {
-            throw new DaoException("Fail to insert movie into database", e);
+            throw new DaoException(
+                    String.format(
+                            "Fail to find movies with ids '%s' from database",
+                            Joiner.on(',').join(ids)
+                    ),
+                    e
+            );
         }
     }
 
@@ -140,7 +152,21 @@ public class MoviesDaoImpl implements MoviesDao {
                 stm.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DaoException("Fail to insert movie into database", e);
+            throw new DaoException(String.format("Fail to update movie with id '%s' into database", movie.getId()), e);
+        }
+    }
+
+    @Override
+    public void remove(String id) {
+        Preconditions.checkNotNull(id, "id");
+        var sql = "delete from movies m where m.id = ?";
+        try (var conn = connectionFactory.createConnection()) {
+            try (var stt = conn.prepareStatement(sql)) {
+                stt.setString(1, id);
+                stt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DaoException(String.format("Fail to delete movie with id '%s'", id), e);
         }
     }
 }
