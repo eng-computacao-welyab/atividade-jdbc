@@ -47,6 +47,9 @@ dev.welyab.bict.paradigmas.atividadejdbc -- pacote raiz
     | repository.dao -- implementação de DAOs para acesso a dados
     | services -- implementação dos serviços definidos em 'core.services'
 ```
+## Layout do formulário de cadastro de filmes
+
+[Layout fo formulário de cadastro de filmes](./layout-gui-cadastro-filmes.jpg)
 
 ## Executando o projeto
 
