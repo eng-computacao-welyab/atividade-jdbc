@@ -49,7 +49,9 @@ dev.welyab.bict.paradigmas.atividadejdbc -- pacote raiz
 ```
 ## Layout do formulário de cadastro de filmes
 
-[Layout fo formulário de cadastro de filmes](./layout-gui-cadastro-filmes.jpg)
+<p align="center">
+  <img src="layout-gui-cadastro-filmes.jpg">
+</p>
 
 ## Executando o projeto
 
