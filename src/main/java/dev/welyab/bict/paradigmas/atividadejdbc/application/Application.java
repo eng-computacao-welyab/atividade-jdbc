@@ -4,7 +4,7 @@ import dev.welyab.bict.paradigmas.atividadejdbc.application.config.database.Data
 import dev.welyab.bict.paradigmas.atividadejdbc.application.config.ioc.Ioc;
 import dev.welyab.bict.paradigmas.atividadejdbc.application.exception.ApplicationException;
 import dev.welyab.bict.paradigmas.atividadejdbc.application.gui.MainFrame;
-import dev.welyab.bict.paradigmas.atividadejdbc.application.gui.MoviesRegistrationPanel;
+import dev.welyab.bict.paradigmas.atividadejdbc.application.gui.movieregistration.MoviesRegistrationPanel;
 import dev.welyab.bict.paradigmas.atividadejdbc.application.repository.dao.impl.MoviesDaoImpl;
 import dev.welyab.bict.paradigmas.atividadejdbc.application.services.MovieServiceImpl;
 import org.apache.logging.log4j.LogManager;
@@ -85,6 +85,7 @@ public class Application implements Closeable {
         var frame = instance(JFrame.class, Application.Components.MAIN_FRAME);
         frame.setTitle("Atividade de Paradigmas de Programação - Welyab Paula");
         logger.info("Application window is all set");
+        frame.pack();
         SwingUtilities.invokeLater(() -> frame.setVisible(true));
         final var latch = new CountDownLatch(1);
         frame.addWindowListener(new WindowAdapter() {

@@ -17,4 +17,6 @@ public interface MovieService {
     void save(Movie movie);
 
     void update(Movie movie);
+
+    List<Movie> findAllLike(Movie movie);
 }

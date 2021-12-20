@@ -10,6 +10,10 @@ public class Page {
         this.pageSize = pageSize;
     }
 
+    public Integer getOffset() {
+        return pageNumber * pageSize;
+    }
+
     public Integer getPageNumber() {
         return pageNumber;
     }

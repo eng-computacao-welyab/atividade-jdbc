@@ -61,4 +61,9 @@ public class MovieServiceImpl implements MovieService {
         Preconditions.checkNotNull(movie, "movie");
         moviesDao.update(movie);
     }
+
+    @Override
+    public List<Movie> findAllLike(Movie movie) {
+        return moviesDao.findAllLike(movie);
+    }
 }

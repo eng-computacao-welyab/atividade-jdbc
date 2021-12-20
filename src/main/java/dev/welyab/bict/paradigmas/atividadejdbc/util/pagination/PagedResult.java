@@ -1,7 +1,5 @@
 package dev.welyab.bict.paradigmas.atividadejdbc.util.pagination;
 
-import dev.welyab.bict.paradigmas.atividadejdbc.util.pagination.Page;
-
 import java.util.List;
 
 public class PagedResult<T> {

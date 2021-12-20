@@ -2,7 +2,6 @@ package dev.welyab.bict.paradigmas.atividadejdbc.application.repository.dao;
 
 import dev.welyab.bict.paradigmas.atividadejdbc.util.pagination.Page;
 import dev.welyab.bict.paradigmas.atividadejdbc.util.pagination.PagedResult;
-import dev.welyab.bict.paradigmas.atividadejdbc.core.entities.Movie;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ public interface Dao<Value, Id> {
 
     Value find(Id id);
 
-    List<Movie> find(List<String> ids);
+    List<Value> find(List<Id> ids);
 
     PagedResult<Value> findAll(Page page);
 
