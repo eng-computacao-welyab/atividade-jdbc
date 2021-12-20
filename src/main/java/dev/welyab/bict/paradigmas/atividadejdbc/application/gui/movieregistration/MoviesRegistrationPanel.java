@@ -1,6 +1,8 @@
 package dev.welyab.bict.paradigmas.atividadejdbc.application.gui.movieregistration;
 
 import com.google.common.base.Strings;
+import dev.welyab.bict.paradigmas.atividadejdbc.application.gui.movieregistration.models.MovieTableData;
+import dev.welyab.bict.paradigmas.atividadejdbc.application.gui.util.jtable.AnnotationTableModel;
 import dev.welyab.bict.paradigmas.atividadejdbc.core.entities.Movie;
 import dev.welyab.bict.paradigmas.atividadejdbc.core.services.MovieService;
 import org.apache.logging.log4j.LogManager;
@@ -22,10 +24,12 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 public class MoviesRegistrationPanel extends JPanel {
 
@@ -40,6 +44,7 @@ public class MoviesRegistrationPanel extends JPanel {
     private JTextField tfImdbScore;
     private JTextField tfImdbLink;
     private JTable jtResults;
+    private AnnotationTableModel resultsModel;
 
     public MoviesRegistrationPanel(MovieService movieService) {
         this.movieService = movieService;
@@ -148,10 +153,8 @@ public class MoviesRegistrationPanel extends JPanel {
         c.gridheight = 11;
         var resultsScroll = new JScrollPane();
         jtResults = new JTable();
-        jtResults.setModel(new DefaultTableModel(
-                listToData(Collections.emptyList()),
-                getColumnNames()
-        ));
+        resultsModel = new AnnotationTableModel<>(MovieTableData.class);
+        jtResults.setModel(resultsModel);
         resultsScroll.setViewportView(jtResults);
         add(resultsScroll, c);
     }
@@ -192,28 +195,43 @@ public class MoviesRegistrationPanel extends JPanel {
     }
 
     public void searchAction(ActionEvent actionEvent) {
-        List<Movie> movies = movieService.findAllLike(getMovie());
-        jtResults.setModel(new DefaultTableModel(listToData(movies), getColumnNames()));
-    }
+        var movies = movieService
+                .findAllLike(getMovie())
+                .stream()
+                .map(movie -> new MovieTableData() {
 
-    private Vector<Vector<String>> listToData(List<Movie> movies) {
-        var data = new Vector<Vector<String>>();
-        for (Movie movie : movies) {
-            var row = new Vector<String>();
-            row.add(movie.getName());
-            row.add(movie.getYear().toString());
-            row.add(movie.getImdbScore().toString());
-            row.add(movie.getImdbUrl());
-            data.add(row);
-        }
-        return data;
-    }
+                            @Override
+                            public String getBict() {
+                                return "BICT";
+                            }
 
-    private Vector<String> getColumnNames() {
-        var columns = new Vector<String>();
-        for (String columnName : COLUMN_NAMES) {
-            columns.add(columnName);
-        }
-        return columns;
+                            @Override
+                            public String getName() {
+                                return movie.getName();
+                            }
+
+                            @Override
+                            public Integer getYear() {
+                                return movie.getYear();
+                            }
+
+                            @Override
+                            public BigDecimal getScore() {
+                                return movie.getImdbScore();
+                            }
+
+                            @Override
+                            public String getUrlImdb() {
+                                return movie.getImdbUrl();
+                            }
+
+                            @Override
+                            public LocalDate getRegistrationDate() {
+                                return movie.getRegistrationDate();
+                            }
+                        }
+                ).collect(Collectors.toList());
+        resultsModel.setValues(movies);
+        jtResults.repaint();
     }
 }

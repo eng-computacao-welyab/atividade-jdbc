@@ -14,6 +14,7 @@ import dev.welyab.bict.paradigmas.atividadejdbc.util.sql.QueryHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -47,7 +48,8 @@ public class MoviesDaoImpl implements MoviesDao {
                     m.name,
                     m.year,
                     m.imdb_score,
-                    m.imdb_url
+                    m.imdb_url,
+                    m.registration_date
                 from movies m
                 offset ?
                 limit ?
@@ -59,12 +61,7 @@ public class MoviesDaoImpl implements MoviesDao {
                 var rs = stm.executeQuery();
                 List<Movie> movies = new ArrayList<>(100);
                 while (rs.next()) {
-                    var movie = new Movie();
-                    movie.setId(rs.getString("id"));
-                    movie.setName(rs.getString("name"));
-                    movie.setYear(rs.getInt("year"));
-                    movie.setImdbScore(rs.getBigDecimal("imdb_score"));
-                    movie.setImdbUrl(rs.getString("imdb_url"));
+                    var movie = resultSetToMovie(rs);
                     movies.add(movie);
                 }
                 return new PagedResult<>(movies, page);
@@ -83,7 +80,8 @@ public class MoviesDaoImpl implements MoviesDao {
                     m.name,
                     m.year,
                     m.imdb_score,
-                    m.imdb_url
+                    m.imdb_url,
+                    m.registration_date
                 from movies m
                 where m.code in (%s)
                 order by m.name
@@ -118,8 +116,8 @@ public class MoviesDaoImpl implements MoviesDao {
     public void save(Movie movie) {
         Preconditions.checkNotNull(movie, "movie");
         var sql = """
-                insert into movies(id, name, year, imdb_score, imdb_url)
-                            values( ?,    ?,    ?,          ?,        ?)
+                insert into movies(id, name, year, imdb_score, imdb_url, registration_date)
+                            values( ?,    ?,    ?,          ?,        ?,                 ?)
                 """;
         try (var conn = connectionFactory.createConnection()) {
             try (var stm = conn.prepareStatement(sql)) {
@@ -128,6 +126,7 @@ public class MoviesDaoImpl implements MoviesDao {
                 stm.setInt(3, movie.getYear());
                 stm.setBigDecimal(4, movie.getImdbScore());
                 stm.setString(5, movie.getImdbUrl());
+                stm.setDate(6, Date.valueOf(movie.getRegistrationDate()));
                 stm.executeUpdate();
             }
         } catch (SQLException e) {
@@ -143,7 +142,8 @@ public class MoviesDaoImpl implements MoviesDao {
                 set name = ?,
                     year = ?
                     imdb_score = ?
-                    imdb_url = ?
+                    imdb_url = ?,
+                    registration_date = ?
                 where code = ?
                 """;
         try (var conn = connectionFactory.createConnection()) {
@@ -153,6 +153,7 @@ public class MoviesDaoImpl implements MoviesDao {
                 stm.setBigDecimal(3, movie.getImdbScore());
                 stm.setString(4, movie.getImdbUrl());
                 stm.setString(5, movie.getId());
+                stm.setDate(6, Date.valueOf(movie.getRegistrationDate()));
                 stm.executeUpdate();
             }
         } catch (SQLException e) {
@@ -188,7 +189,8 @@ public class MoviesDaoImpl implements MoviesDao {
                         "m.name",
                         "m.year",
                         "m.imdb_url",
-                        "m.imdb_score"
+                        "m.imdb_score",
+                        "m.registration_date"
                 ));
 
         if (!Strings.isNullOrEmpty(movie.getName())) {
@@ -245,6 +247,7 @@ public class MoviesDaoImpl implements MoviesDao {
         movie.setYear(rs.getInt("year"));
         movie.setImdbScore(rs.getBigDecimal("imdb_score"));
         movie.setImdbUrl(rs.getString("imdb_url"));
+        movie.setRegistrationDate(rs.getDate("registration_date").toLocalDate());
         return movie;
     }
 }

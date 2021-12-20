@@ -1,9 +1,10 @@
 create table movies (
-    id         varchar(36) primary key,
-    name       varchar (140) not null,
-    year       numeric(4) not null,
-    imdb_score numeric(4, 1),
-    imdb_url   varchar(140)
+    id                varchar(36) primary key,
+    name              varchar (140) not null,
+    year              numeric(4) not null,
+    imdb_score        numeric(4, 1),
+    imdb_url          varchar(140),
+    registration_date date not null
 );
 
 create index movies_score_index on movies(imdb_score);

@@ -13,10 +13,13 @@ Professor: Sérgio Souza Costa
   * Também define um DAO genérico para definição de métodos comuns de um CRUD
 * Implementa uma estrutura de banco de dados
 * Cria um formulário em Java Swing para cadastro de filmes na base de dados utilizando `GridBagLayout`
+* Implementa uma `JTable` cujo o `TableModel` é implementado internamente usando `@Annotations` para definição dos valores que devem ser apresentados na tabela.
+* Implementa um micro framework para construção de queries SQL `SELECT`
 
 ## Decisões de implementação
 
 * Foi implementado um mecanismo rudimentar para inversão de controle e injeção de dependências
+* Foi implementado micro framework muito simles para construção de consultas SQL
 
 ## Tecnologias uitilizadas
 
@@ -27,6 +30,7 @@ Professor: Sérgio Souza Costa
 * HikariCP para pool de conexões
 * Google Guava para rotinas auxiliares
 * Apache Commons IO para rotinas auxiliares
+* Log4J para logs
 
 ## Estrutura de pacotes
 
@@ -35,6 +39,7 @@ dev.welyab.bict.paradigmas.atividadejdbc -- pacote raiz
   | core.entities -- definição do modelo de dados
   | core.services -- definição dos serviços realizados pela aplicação
   | application -- implementação do que está definido no pacote 'core'
+  | gui -- construção de interfaces gráficas baseadas em Java Swing
     | config -- configurações diversas
       | database -- conexão com o banco de dados da aplicação
       | ioc -- uma implementação rudimentar de IoC

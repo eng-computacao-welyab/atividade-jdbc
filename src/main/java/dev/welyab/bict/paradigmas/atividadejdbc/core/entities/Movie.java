@@ -1,6 +1,7 @@
 package dev.welyab.bict.paradigmas.atividadejdbc.core.entities;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Movie {
@@ -10,6 +11,7 @@ public class Movie {
     private Integer year;
     private BigDecimal imdbScore;
     private String imdbUrl;
+    private LocalDate registrationDate;
 
     public Movie() {
     }
@@ -66,28 +68,26 @@ public class Movie {
         this.imdbUrl = imdbUrl;
     }
 
+    public LocalDate getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(LocalDate registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
     @Override
-    @SuppressWarnings("all")
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Movie movie = (Movie) o;
-        return Objects.equals(id, movie.id) && Objects.equals(name, movie.name) && Objects.equals(year, movie.year) && Objects.equals(imdbScore, movie.imdbScore) && Objects.equals(imdbUrl, movie.imdbUrl);
+        return Objects.equals(id, movie.id) && Objects.equals(name, movie.name) && Objects.equals(year, movie.year)
+                && Objects.equals(imdbScore, movie.imdbScore) && Objects.equals(imdbUrl, movie.imdbUrl)
+                && Objects.equals(registrationDate, movie.registrationDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, year, imdbScore, imdbUrl);
-    }
-
-    @Override
-    public String toString() {
-        return "Movie{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", year=" + year +
-                ", imdbScore=" + imdbScore +
-                ", imdbUrl='" + imdbUrl + '\'' +
-                '}';
+        return Objects.hash(id, name, year, imdbScore, imdbUrl, registrationDate);
     }
 }

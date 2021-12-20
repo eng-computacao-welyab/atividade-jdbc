@@ -11,6 +11,7 @@ import dev.welyab.bict.paradigmas.atividadejdbc.core.services.MovieService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -52,6 +53,7 @@ public class MovieServiceImpl implements MovieService {
         }
 
         movie.setId(UUID.randomUUID().toString());
+        movie.setRegistrationDate(LocalDate.now());
         moviesDao.save(movie);
         logger.info("Movie saved successful");
     }
