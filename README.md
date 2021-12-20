@@ -49,6 +49,8 @@ dev.welyab.bict.paradigmas.atividadejdbc -- pacote raiz
 ```
 ## Layout do formulário de cadastro de filmes
 
+O layout utiliza `GridBagLayout`. As linhas e colunas foram definidas como segue:
+
 <p align="center">
   <img src="layout-gui-cadastro-filmes.jpg">
 </p>
